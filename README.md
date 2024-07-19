@@ -1,8 +1,6 @@
 Project 1: Analysis Of US Bikeshare Data From Motivate
 ======================================================
-### by Pran Kumar Sarkar
-
-US Bikeshare Data analysis project, part of the Udacity [Python Foundation Nanodegree](https://in.udacity.com/course/python-foundation-nanodegree--nd002-inpy).
+### by Arnabi Saha
 
 Overview:
 -------------------------------------------
@@ -59,14 +57,14 @@ This project consists for the following files:
 * **_config.yml** - Configuration file for github theme.
 
 ## Download:
-This project can be downloaded by [clicking here](https://github.com/pks9862728888/US_bikeshare_data_analysis/archive/master.zip) 
+This project can be downloaded by [clicking here](https://github.com/arnabisaha/US_bikeshare_data_analysis/archive/master.zip) 
 
 ## How to Run Project:
 
 Download the project zip file to your computer and unzip the file. Or clone this repository to your desktop by typing the following code in your terminal(*for Linux*) or command prompt(*for windows*):
 
 ```bash
-git clone https://github.com/pks9862728888/Movie_trailer_website_generator.git
+git clone https://github.com/arnabisaha/US_bikeshare_data_analysis.git
 ```
 
 Navigate to the project directory and type in the following command:
@@ -84,13 +82,9 @@ The following features were implemented to gain an extra credit from Udacity:
 * Added functionality to visualize the individual statistics in graph.
 
 ## References:
-1. [Python Foundation Nanodegree Udacity](https://in.udacity.com/course/python-foundation-nanodegree--nd002-inpy)
-2. [Markdown formatting for README.md](https://help.github.com/articles/basic-writing-and-formatting-syntax/)
-3. [Writing Readme Free Course Udacity](https://classroom.udacity.com/courses/ud777)
-4. [Sample Readme by tsega](https://github.com/tsega/movie-trailer-website/blob/master/README.md)
-5. Clearing the screen: [Stack Overflow Link](https://stackoverflow.com/questions/2084508/clear-terminal-in-python)
-6. Counting grouped occurences in dataframe: [Stack Overflow Link](https://datascience.stackexchange.com/questions/29840/how-to-count-grouped-occurrences)
-7. Python for Data Analysis by Wes McKinney
-8. Mentor(*available in Slack*): Sir Vardaan Sharma
+1. [Markdown formatting for README.md](https://help.github.com/articles/basic-writing-and-formatting-syntax/)
+2. Clearing the screen: [Stack Overflow Link](https://stackoverflow.com/questions/2084508/clear-terminal-in-python)
+3. Counting grouped occurences in dataframe: [Stack Overflow Link](https://datascience.stackexchange.com/questions/29840/how-to-count-grouped-occurrences)
 
 Thank you.
+"# US_bikeshare_data_analysis" 
