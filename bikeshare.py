@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Dec 10 18:18:20 2018
-
-@author: Pran Kumar Sarkar
-"""
 import time
 from shutil import get_terminal_size
 import numpy as np
