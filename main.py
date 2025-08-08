@@ -168,17 +168,11 @@ def get_filters():
         city = city.title()
 
         # Decoding mnemonic inputs
-        if city == "1" or city == "Chi" or city == "C":
+        if city == "1":
             city = "Chicago"
-        elif (
-            city == "2"
-            or city == "Ny"
-            or city == "N Y"
-            or city == "Newyork"
-            or city == "N"
-        ):
+        elif city == "2":
             city = "New York"
-        elif city == "3" or city == "Wash" or city == "W":
+        elif city == "3":
             city = "Washington"
 
         # Asking user to input again if unexpected input else continue
@@ -187,7 +181,7 @@ def get_filters():
             break
         else:
             print("\n******************INVALID INPUT*******************")
-            print("Please select the city from the available options.")
+            print("Please select the city from the available options (1 - 3)")
 
     print("----------------------------------------------")
     # Asking user which filter to apply and accepting required values
@@ -656,7 +650,7 @@ def restart_program():
 def main():
     """
     Main function to call other functions to get data, filters,
-    and for showing and visualizing different statistics.
+    and for showing different statistics.
     """
     while True:
         city, month, day, filters = get_filters()
