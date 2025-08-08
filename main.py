@@ -1,8 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from math import nan
 import time
 from os import get_terminal_size
+from typing import Optional, Tuple
 import pandas as pd
+import numpy as np
+
+NOT_FOUND = "Not Found"
+NA = "N/A"
 
 CITY_DATA = {
     "Chicago": "chicago.csv",
@@ -168,11 +174,17 @@ def get_filters():
         city = city.title()
 
         # Decoding mnemonic inputs
-        if city == "1":
+        if city == "1" or city == "Chi" or city == "C":
             city = "Chicago"
-        elif city == "2":
+        elif (
+            city == "2"
+            or city == "Ny"
+            or city == "N Y"
+            or city == "Newyork"
+            or city == "N"
+        ):
             city = "New York"
-        elif city == "3":
+        elif city == "3" or city == "Wash" or city == "W":
             city = "Washington"
 
         # Asking user to input again if unexpected input else continue
@@ -181,7 +193,7 @@ def get_filters():
             break
         else:
             print("\n******************INVALID INPUT*******************")
-            print("Please select the city from the available options (1 - 3)")
+            print("Please select the city from the available options.")
 
     print("----------------------------------------------")
     # Asking user which filter to apply and accepting required values
@@ -230,7 +242,7 @@ def get_filters():
     return city, month, day, filters
 
 
-def common_month(dataframe):  # -> Optional({}):
+def common_month(dataframe) -> Optional[Tuple[str, int]]:
     """
     :param:
         (data-frame) dataframe - Pandas data-frame containing the travel data points
@@ -238,11 +250,15 @@ def common_month(dataframe):  # -> Optional({}):
     :return:
         (str) month - The month which has maximum travel.
     """
-    popular_month_no = dataframe["Month"].mode().iat[0]
-    month_name = MONTHS[popular_month_no - 1]
-    count = dataframe["Month"].value_counts().get(popular_month_no, 0)
+    popular_month_mode = dataframe["Month"].mode()
+    if popular_month_mode.empty:
+        return None
+    else:
+        popular_month_no = popular_month_mode.iat[0]
+        month_name = MONTHS[popular_month_no - 1]
+        count = dataframe["Month"].value_counts().get(popular_month_no, 0)
 
-    return month_name, count
+        return month_name, count
 
 
 def common_day(dataframe):
@@ -253,10 +269,14 @@ def common_day(dataframe):
     :return:
         (str) day - The day which has maximum travel.
     """
-    day = dataframe["Day"].mode()[0]
-    popular_day = (dataframe["Day"] == day).sum()
+    day_mode = dataframe["Day"].mode()
+    if day_mode.empty:
+        return None
+    else:
+        day = day_mode[0]
+        popular_day = (dataframe["Day"] == day).sum()
 
-    return day, popular_day
+        return day, popular_day
 
 
 def get_day_number(day):
@@ -284,6 +304,7 @@ def get_day_name(day_number):
         5: "Friday",
         6: "Saturday",
     }
+    print(f"dn: {day_number}")
     return day_dict[day_number]
 
 
@@ -382,21 +403,36 @@ def time_stats(dataframe, filters):
     print("**********************************************")
 
     start_time = time.time()
-    popular_month, count_popular_month = common_month(dataframe)
-    popular_day, count_popular_day = common_day(dataframe)
-    popular_hour = dataframe["Hour"].mode()[0]
-    count_popular_hour = (dataframe["Hour"] == popular_hour).sum()
+    popular_month, count_popular_month = common_month(dataframe) or (None, None)
+    popular_day, count_popular_day = common_day(dataframe) or (None, None)
+    popular_hour_mode = dataframe["Hour"].mode()
+    popular_hour = None if popular_hour_mode.empty else popular_hour_mode[0]
+    count_popular_hour = (
+        None if popular_hour is None else (dataframe["Hour"] == popular_hour).sum()
+    )
 
     if filters == "None":
-        print("\nMost popular month for travelling: ", popular_month)
+        print(
+            "\nMost popular month for travelling: ",
+            NOT_FOUND if popular_month is None else popular_month,
+        )
         print("Counts: ", count_popular_month)
-        print("\nMost popular day for travelling: ", get_day_name(popular_day))
+        print(
+            "\nMost popular day for travelling: ",
+            NOT_FOUND if None else get_day_name(popular_day),
+        )
         print("Counts: ", count_popular_day)
         print("\nMost popular hour of day for travelling: ", popular_hour)
         print("Counts: ", count_popular_hour)
     elif filters == "Both":
-        print("\nMost popular hour of day for travelling: ", popular_hour)
-        print("Counts: ", count_popular_hour)
+        print(
+            "\nMost popular hour of day for travelling: ",
+            NOT_FOUND if popular_hour is None else popular_hour,
+        )
+        print(
+            "Counts: ",
+            NOT_FOUND if count_popular_hour is None else count_popular_hour,
+        )
     elif filters == "Month":
         print("\nMost popular day for travelling: ", get_day_name(popular_day))
         print("Counts: ", count_popular_day)
@@ -426,30 +462,56 @@ def station_stats(dataframe, filters):
     print("**********************************************")
     start_time = time.time()
 
-    print("Most Commonly Used Start Station: ", dataframe["Start Station"].mode()[0])
-    print("Counts: ", dataframe["Start Station"].value_counts().iloc[0])
-    print("\nMost Commonly Used End Station: ", dataframe["End Station"].mode()[0])
-    print("Counts: ", dataframe["End Station"].value_counts().iloc[0])
+    start_station_mode = dataframe["Start Station"].mode()
+    is_station_data_not_found = start_station_mode.empty
+    print(
+        "Most Commonly Used Start Station: ",
+        NOT_FOUND if is_station_data_not_found else start_station_mode[0],
+    )
+    print(
+        "Counts: ",
+        (
+            NA
+            if is_station_data_not_found
+            else dataframe["Start Station"].value_counts().iloc[0]
+        ),
+    )
+    end_station_mode = dataframe["End Station"].mode()
+    print(
+        "\nMost Commonly Used End Station: ",
+        NOT_FOUND if end_station_mode.empty else end_station_mode[0],
+    )
+    print(
+        "Counts: ",
+        (
+            NA
+            if end_station_mode.empty
+            else dataframe["End Station"].value_counts().iloc[0]
+        ),
+    )
     print("\nMost Popular Trip: ")
 
     # Calculating most popular combination of Start and End Stations
-    grouped_data = (
-        dataframe.groupby(["Start Station", "End Station"])
-        .size()
-        .to_frame("number")
-        .reset_index()
-    )
-    popular_trip_location_index = grouped_data["number"].idxmax()
-
-    start_station = grouped_data.loc[popular_trip_location_index]["Start Station"]
-    end_station = grouped_data.loc[popular_trip_location_index]["End Station"]
-    count = grouped_data["number"].max()
-
-    print(
-        "Start Station: {}\nEnd Station: {}\nCounts: {}".format(
-            start_station, end_station, count
+    if not is_station_data_not_found:
+        grouped_data = (
+            dataframe.groupby(["Start Station", "End Station"])
+            .size()
+            .to_frame("number")
+            .reset_index()
         )
-    )
+        popular_trip_location_index = grouped_data["number"].idxmax()
+
+        start_station = grouped_data.loc[popular_trip_location_index]["Start Station"]
+        end_station = grouped_data.loc[popular_trip_location_index]["End Station"]
+        count = grouped_data["number"].max()
+
+        print(
+            "Start Station: {}\nEnd Station: {}\nCounts: {}".format(
+                start_station, end_station, count
+            )
+        )
+    else:
+        print(NOT_FOUND)
     print("\nThis took about {} seconds.".format(time.time() - start_time))
     print("----------------------------------------------")
 
@@ -478,7 +540,9 @@ def trip_duration_stats(dataframe, filters):
     print("Counts: ", dataframe["Trip Duration"].count())
 
     # Displaying average duration
-    print("\nAverage Duration: {} seconds".format(average_trip_duration))
+    print(
+        f"\nAverage Duration: {0 if np.isnan(average_trip_duration) else average_trip_duration} seconds"
+    )
     print("\nThis took about {} seconds.".format(time.time() - start_time))
     print("----------------------------------------------")
 
@@ -544,21 +608,23 @@ def display_birth_year_statistics(dataframe):
     if "Birth Year" not in dataframe.columns:
         print("No Data is found for Birth Year.")
     else:
-        most_earliest_birth_year = dataframe.loc[dataframe["Birth Year"].idxmin()][
-            "Birth Year"
-        ]
-        most_recent_birth_year = dataframe.loc[dataframe["Birth Year"].idxmax()][
-            "Birth Year"
-        ]
-        most_common_birth_year = dataframe["Birth Year"].mode()[0]
-        most_common_birth_year_counts = (
-            dataframe["Birth Year"] == most_common_birth_year
-        ).sum()
+        birth_year = dataframe["Birth Year"]
+        if not birth_year.empty:
+            most_earliest_birth_year = dataframe.loc[dataframe["Birth Year"].idxmin()][
+                "Birth Year"
+            ]
+            most_recent_birth_year = dataframe.loc[dataframe["Birth Year"].idxmax()][
+                "Birth Year"
+            ]
+            most_common_birth_year = dataframe["Birth Year"].mode()[0]
+            most_common_birth_year_counts = (
+                dataframe["Birth Year"] == most_common_birth_year
+            ).sum()
 
-        print("Most earliest birth year: ", most_earliest_birth_year)
-        print("Most recent birth year: ", most_recent_birth_year)
-        print("Most common birth year: ", most_common_birth_year)
-        print("Counts: ", most_common_birth_year_counts)
+            print("Most earliest birth year: ", most_earliest_birth_year)
+            print("Most recent birth year: ", most_recent_birth_year)
+            print("Most common birth year: ", most_common_birth_year)
+            print("Counts: ", most_common_birth_year_counts)
 
 
 def show_data(dataframe, filters, city):
@@ -650,7 +716,7 @@ def restart_program():
 def main():
     """
     Main function to call other functions to get data, filters,
-    and for showing different statistics.
+    and for showing and visualizing different statistics.
     """
     while True:
         city, month, day, filters = get_filters()
