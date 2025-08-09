@@ -304,7 +304,6 @@ def get_day_name(day_number):
         5: "Friday",
         6: "Saturday",
     }
-    print(f"dn: {day_number}")
     return day_dict[day_number]
 
 
