@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from math import nan
 import time
+import os
 from os import get_terminal_size
 from typing import Optional, Tuple
 import pandas as pd
@@ -9,11 +10,12 @@ import numpy as np
 
 NOT_FOUND = "Not Found"
 NA = "N/A"
+DATA_DIR = "data"
 
 CITY_DATA = {
-    "Chicago": "chicago.csv",
-    "New York": "new_york_city.csv",
-    "Washington": "washington.csv",
+    "Chicago": os.path.join(DATA_DIR, "chicago.csv"),
+    "New York": os.path.join(DATA_DIR, "new_york_city.csv"),
+    "Washington": os.path.join(DATA_DIR, "washington.csv"),
 }
 
 MONTHS = [
