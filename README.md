@@ -4,7 +4,7 @@ Project 1: Analysis Of US Bikeshare Data From Motivate
 
 Overview:
 -------------------------------------------
-This project analyzes the bike-share data of US from [Motivate](https://www.motivateco.com/) for popular cities Washington, New York, and Chicago; and then shows various statistics according to filter chosen by user. It also shows visual statistics and individual travel data if the user want to see it.
+This project analyzes the bike-share data of US from [Motivate](https://www.motivateco.com/) for popular cities Washington, New York, and Chicago; and then shows various statistics according to filter chosen by user.
 
 Moreover after seeing statistics of a particular station, the user can restart the program to see the statistics of another station or same station with different filters.
 
@@ -29,21 +29,18 @@ These statistics are shown on filtered data:~
 
 **User Statistics:** This shows statistics on the types of bike users, gender of bike users, most recent, most common, and most earliest birth year of the bike users.
 
-Moreover Time statistics, Station statistics, and User statistics are also shown in graphs.
+## Activate virtual environment first:
+- After cloning the repo run command ```uv .venv``` to create virtual environment
+- To activate virtual environment: ```source .venv/Scripts/activate```
 
 ## Required Libraries and Dependencies:
 
 Python 3.x is required to run this project. The Python executable should be in your default path, in which the Python installer should have set. 
 
-Additional required packages:
-* **pandas** : ```pip install pandas==1.1.4```
-* **numpy** : ```pip install numpy==1.19.4```
-* **seaborn** : ```pip install seaborn==0.11.0```
-* **matplotlib** : ```pip install matplotlib==3.3.2```
-
-To install the above packages(*if not installed*) open terminal or command prompt and type in the commands provided above.
-
-This project is done with pandas version 1.1.4, numpy version 1.19.4, seaborn version 0.11.0 and matplotlib version 3.3.2. Installing other versions may subject to errors.
+To install the above packages(*if not installed*) open terminal or command prompt and type in the command 
+```
+uv sync
+```
 
 ## Project contents:
 
@@ -70,16 +67,14 @@ git clone https://github.com/arnabisaha/US_bikeshare_data_analysis.git
 Navigate to the project directory and type in the following command:
 
 ```bash
-python Bikeshare.py
+python main.py
 ```
 
-## Extra Credit Description:
+or
 
-The following features were implemented to gain an extra credit from Udacity:
-
-* Added functionality to show popular day and popular month of trip on whole data if data is to be filtered by day or month or both.
-* Shows the number and percentage of data which are missing.
-* Added functionality to visualize the individual statistics in graph.
+```bash
+uv run main.py
+```
 
 ## References:
 1. [Markdown formatting for README.md](https://help.github.com/articles/basic-writing-and-formatting-syntax/)

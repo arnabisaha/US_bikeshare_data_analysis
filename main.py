@@ -13,7 +13,7 @@ NA = "N/A"
 DATA_DIR = "data"
 
 CITY_DATA = {
-    "Chicago": os.path.join(DATA_DIR, "chicago.csv"),
+    "Chicago": os.path.join(DATA_DIR, "chicago.csv"), 
     "New York": os.path.join(DATA_DIR, "new_york_city.csv"),
     "Washington": os.path.join(DATA_DIR, "washington.csv"),
 }
@@ -717,7 +717,7 @@ def restart_program():
 def main():
     """
     Main function to call other functions to get data, filters,
-    and for showing and visualizing different statistics.
+    and for showing different statistics.
     """
     while True:
         city, month, day, filters = get_filters()
